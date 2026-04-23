@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 export default function Login() {
   return (
     <>
@@ -20,6 +21,10 @@ export default function Login() {
           <input type="submit" value="Iniciar Sesión" className="bg-indigo-600 hover:bg-indigo-800 text-white w-full mt-5 p-3 uppercase font-bold cursor-pointer" />
         </form>
       </div>
+
+      <nav>
+        <Link to="/auth/registro">¿No tienes cuenta?, Crea una</Link>
+      </nav>
     </>
   );
 }
