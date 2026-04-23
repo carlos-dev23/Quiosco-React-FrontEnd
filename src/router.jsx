@@ -3,6 +3,7 @@ import Layout from "./layouts/Layout";
 import AuthLayout from "./layouts/AuthLayout";
 import Inicio from "./views/Inicio";
 import Login from "./views/Login";
+import Registro from "./views/Registro";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,8 +20,12 @@ const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       {
-        index: true,
+        path: "login",
         element: <Login />,
+      },
+      {
+        path: "registro",
+        element: <Registro />,
       },
     ],
   },
