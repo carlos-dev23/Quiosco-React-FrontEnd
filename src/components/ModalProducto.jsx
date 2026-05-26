@@ -10,7 +10,6 @@ export default function ModalProducto() {
   useEffect(() => {
     if (pedido.some(pedidoState => pedidoState.id === producto.id)) {
       const productoEdicion = pedido.filter(pedidoState => pedidoState.id === producto.id)[0];
-      console.log(productoEdicion);
       setCantidad(productoEdicion.cantidad);
       setEdicion(true);
     }
