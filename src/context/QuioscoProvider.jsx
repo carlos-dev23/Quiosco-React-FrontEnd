@@ -30,6 +30,12 @@ const QuioscoProvider = ({ children }) => {
     setModal(!modal);
   }
 
+  const handleEliminarProductoPedido = (id) => {
+    const pedidoActualizado = pedido.filter(producto => producto.id !== id)
+    setPedido(pedidoActualizado);
+    toast.success('Producto eliminado del pedido');
+  }
+
   const handleAgregarPedido = ({ categoria_id, ...producto }) => {
     if (pedido.some(pedidoState => pedidoState.id === producto.id)) {
       const pedidoActualizado = pedido.map(pedidoState => 
@@ -44,7 +50,7 @@ const QuioscoProvider = ({ children }) => {
   };
 
   return (
-    <QuioscoContext.Provider value={{ categorias, categoriaActual, handleClickCategoria, modal, handleClickModal, producto, handleSetProducto, pedido, handleAgregarPedido, handleEditarCantidad }}>
+    <QuioscoContext.Provider value={{ categorias, categoriaActual, handleClickCategoria, modal, handleClickModal, producto, handleSetProducto, pedido, handleAgregarPedido, handleEditarCantidad,handleEliminarProductoPedido }}>
       {children}
     </QuioscoContext.Provider>
   );
