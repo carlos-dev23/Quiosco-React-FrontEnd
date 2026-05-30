@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { categorias as categoriasDB } from "../data/categories.js";
 
@@ -10,6 +10,11 @@ const QuioscoProvider = ({ children }) => {
   const [modal, setModal] = useState(false);
   const [producto, setProducto] = useState({});
   const [pedido, setPedido] = useState([]);
+  const [total, setTotal] = useState(0);
+  useEffect(() => { 
+    const nuevoTotal = pedido.reduce((total, producto) => total + (producto.cantidad * producto.precio), 0);
+    setTotal(nuevoTotal);
+  }, [pedido]);
 
   const handleClickCategoria = (id) => {
     const categoria = categorias.filter((categoria) => categoria.id === id)[0];
@@ -50,7 +55,7 @@ const QuioscoProvider = ({ children }) => {
   };
 
   return (
-    <QuioscoContext.Provider value={{ categorias, categoriaActual, handleClickCategoria, modal, handleClickModal, producto, handleSetProducto, pedido, handleAgregarPedido, handleEditarCantidad,handleEliminarProductoPedido }}>
+    <QuioscoContext.Provider value={{ categorias, categoriaActual, handleClickCategoria, modal, handleClickModal, producto, handleSetProducto, pedido, handleAgregarPedido, handleEditarCantidad,handleEliminarProductoPedido, total }}>
       {children}
     </QuioscoContext.Provider>
   );
