@@ -1,10 +1,16 @@
-import { productos as data } from "../data/productos";
+import useSWR from "swr";
 import Producto from "../components/Productos";
 import useQuiosco from "../hooks/useQuiosco";
 
 export default function Inicio() {
   const { categoriaActual } = useQuiosco();
-  const productos = data.filter((producto) => producto.categoria_id === categoriaActual.id);
+
+  const fetcher = () => clienteAxios("/api/productos").then(data => data.data);
+  const { data, error, isLoading } = useSWR("/api/productos", fetcher, {
+    refreshInterval: 1000
+  });
+
+  const productos = data.data.filter((producto) => producto.categoria_id === categoriaActual.id);
   return (
     <>
       <h1 className="text-4xl font-black">{categoriaActual.nombre}</h1>
