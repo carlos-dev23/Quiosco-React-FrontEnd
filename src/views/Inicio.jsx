@@ -6,12 +6,12 @@ import clienteAxios from "../config/axios";
 export default function Inicio() {
   const { categoriaActual } = useQuiosco();
 
-  const fetcher = () => clienteAxios("/api/productos").then(data => data.data);
+  const fetcher = () => clienteAxios("/api/productos").then((response) => response.data);
   const { data, error, isLoading } = useSWR("/api/productos", fetcher, {
-    refreshInterval: 1000
+    refreshInterval: 10000
   });
-  
-  const productos = data.data.filter((producto) => producto.categoria_id === categoriaActual.id);
+
+  const productos = data?.data.filter((producto) => producto.categoria_id === categoriaActual.id) || [];
   return (
     <>
       <h1 className="text-4xl font-black">{categoriaActual.nombre}</h1>
