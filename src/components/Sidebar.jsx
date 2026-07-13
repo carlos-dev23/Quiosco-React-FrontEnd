@@ -10,6 +10,7 @@ export default function Sidebar() {
       <div className="p-4">
         <img src="img/logo.svg" alt="" />
       </div>
+      <p className="text-xl font-bold mb-4 text-center">Hola: {user?.name}</p>
       <div className="mt-10">
         {categorias.map((categoria) => (
           <Categorias categoria={categoria} key={categoria.id} />
