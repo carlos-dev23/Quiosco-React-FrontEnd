@@ -24,7 +24,7 @@ export default function Login() {
   
   return (
     <>
-      <h1>Iniciar Sesión</h1>
+      <h1 className="font-bold text-2xl">Iniciar Sesión</h1>
       <p>Para crear un pedido debes iniciar sesión</p>
       <div className="bg-white shadow-md rounded-md mt-10 px-5 py-10">
         <form onSubmit={handleSubmit}>
