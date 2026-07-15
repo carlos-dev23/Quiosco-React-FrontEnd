@@ -13,7 +13,7 @@ export default function AdminSidebar() {
               <Link to="/admin/productos" className="block p-3 hover:bg-indigo-600/20">Productos</Link>
           </nav>
           <div className="my-5 px-5">
-              <button type="button" className="text-center bg-red-500 w-full p-3 font-bold text-white truncate">Cerrar Sesión</button>
+              <button onClick={logout} type="button" className="text-center bg-red-500 w-full p-3 font-bold text-white truncate">Cerrar Sesión</button>
           </div>
     </aside>
   )
