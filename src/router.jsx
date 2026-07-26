@@ -4,7 +4,7 @@ import AuthLayout from "./layouts/AuthLayout";
 import Inicio from "./views/Inicio";
 import Login from "./views/Login";
 import Registro from "./views/Registro";
-import Productos from "./components/Productos";
+import Productos from "./views/Productos";
 import Ordenes from "./views/Ordenes";
 import AdminLayout from "./layouts/AdminLayout";
 const router = createBrowserRouter([
@@ -31,20 +31,21 @@ const router = createBrowserRouter([
         element: <Registro />,
       },
     ],
-  }, {
+  },
+  {
     path: "/admin",
     element: <AdminLayout />,
     children: [
       {
         index: true,
-        element: <Ordenes />
+        element: <Ordenes />,
       },
       {
-        path: '/admin/productos',
-        element: <Productos />
-      }
-    ]
-  }
+        path: "/admin/productos",
+        element: <Productos />,
+      },
+    ],
+  },
 ]);
 
 export default router;
