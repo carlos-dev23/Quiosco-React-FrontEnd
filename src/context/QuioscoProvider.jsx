@@ -12,24 +12,24 @@ const QuioscoProvider = ({ children }) => {
   const [producto, setProducto] = useState({});
   const [pedido, setPedido] = useState([]);
   const [total, setTotal] = useState(0);
-  useEffect(() => { 
-    const nuevoTotal = pedido.reduce((total, producto) => total + (producto.cantidad * producto.precio), 0);
+  useEffect(() => {
+    const nuevoTotal = pedido.reduce((total, producto) => total + producto.cantidad * producto.precio, 0);
     setTotal(nuevoTotal);
   }, [pedido]);
 
   const obtenerCategorias = async () => {
     try {
-      const {data} = await clienteAxios('/api/categorias');
+      const { data } = await clienteAxios("/api/categorias");
       setCategorias(data.data);
       setCategoriaActual(data.data[0]);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     obtenerCategorias();
-  },[]);
+  }, []);
 
   const handleClickCategoria = (id) => {
     const categoria = categorias.filter((categoria) => categoria.id === id)[0];
@@ -48,44 +48,45 @@ const QuioscoProvider = ({ children }) => {
     const productoActualizar = pedido.filter((producto) => producto.id === id)[0];
     setProducto(productoActualizar);
     setModal(!modal);
-  }
+  };
 
   const handleEliminarProductoPedido = (id) => {
-    const pedidoActualizado = pedido.filter(producto => producto.id !== id)
+    const pedidoActualizado = pedido.filter((producto) => producto.id !== id);
     setPedido(pedidoActualizado);
-    toast.success('Producto eliminado del pedido');
-  }
+    toast.success("Producto eliminado del pedido");
+  };
 
   const handleAgregarPedido = ({ categoria_id, ...producto }) => {
-    if (pedido.some(pedidoState => pedidoState.id === producto.id)) {
-      const pedidoActualizado = pedido.map(pedidoState => 
-        pedidoState.id === producto.id ? producto : pedidoState
-      );
+    if (pedido.some((pedidoState) => pedidoState.id === producto.id)) {
+      const pedidoActualizado = pedido.map((pedidoState) => (pedidoState.id === producto.id ? producto : pedidoState));
       setPedido(pedidoActualizado);
-      toast.success('Guardado correctamente');
+      toast.success("Guardado correctamente");
     } else {
       setPedido([...pedido, producto]);
-      toast.success('Producto Agregado Exitosamente');
+      toast.success("Producto Agregado Exitosamente");
     }
   };
 
   const handleSubmitNuevaOrden = async (logout) => {
     const token = localStorage.getItem("AUTH_TOKEN");
     try {
-      const { data } = await ClienteAxios.post('/api/pedidos', {
-        total,
-        productos: pedido.map(producto => {
-          return {
-            id: producto.id, 
-            cantidad: producto.cantidad
-          }
-        })
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        
-        }
-      });
+      const { data } = await ClienteAxios.post(
+        "/api/pedidos",
+        {
+          total,
+          productos: pedido.map((producto) => {
+            return {
+              id: producto.id,
+              cantidad: producto.cantidad,
+            };
+          }),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
       toast.success(data.message);
       setTimeout(() => {
         setPedido([]);
@@ -93,14 +94,47 @@ const QuioscoProvider = ({ children }) => {
       setTimeout(() => {
         localStorage.removeItem("AUTH_TOKEN");
         logout();
-      },3000);
+      }, 3000);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
+  const handleClickCompletarPedido = async (id) => {
+    const token = localStorage.getItem("AUTH_TOKEN");
+    console.log("id del pedido");
+    console.log(id);
+    try {
+      await clienteAxios.put(`/api/pedidos/${id}`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("peticion realizada con exito");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <QuioscoContext.Provider value={{ categorias, categoriaActual, handleClickCategoria, modal, handleClickModal, producto, handleSetProducto, pedido, handleAgregarPedido, handleEditarCantidad,handleEliminarProductoPedido, total,handleSubmitNuevaOrden }}>
+    <QuioscoContext.Provider
+      value={{
+        categorias,
+        categoriaActual,
+        handleClickCategoria,
+        modal,
+        handleClickModal,
+        producto,
+        handleSetProducto,
+        pedido,
+        handleAgregarPedido,
+        handleEditarCantidad,
+        handleEliminarProductoPedido,
+        total,
+        handleSubmitNuevaOrden,
+        handleClickCompletarPedido,
+      }}
+    >
       {children}
     </QuioscoContext.Provider>
   );
